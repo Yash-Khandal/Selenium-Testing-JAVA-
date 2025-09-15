@@ -24,11 +24,7 @@ Place the gif in your repo (e.g., `/assets/demo.gif`) and un-comment the next li
 - [About](#about)
 - [Features](#features)
 - [Tech Stack](#tech-stack)
-- [Project Structure](#project-structure)
-- [Setup](#setup)
-- [How to Run](#how-to-run)
-- [Contributing](#contributing)
-- [Contact](#contact)
+
 
 ---
 
@@ -61,5 +57,5 @@ This repository contains my learning journey in **Selenium WebDriver with Java a
 
 ---
 
-## 🗂️ Project Structure
+
 
