@@ -23,12 +23,11 @@ public class MakeMyTrip {
         JavascriptExecutor js = (JavascriptExecutor) driver;
 
         driver.manage().window().maximize();
-        driver.get("https://www.makemytrip.com/flights/");   // Flights main [web:7]
-
-        // Give focus
+        driver.get("https://www.makemytrip.com/flights/");   
+       
         actions.moveByOffset(10, 10).click().perform();
 
-        // Close chatbot if present
+       
         Thread.sleep(3000);
         List<WebElement> chatbotCloseImg =
                 driver.findElements(By.cssSelector("div.tp-dt-header-icon img[alt='minimize']"));
@@ -36,7 +35,7 @@ public class MakeMyTrip {
             chatbotCloseImg.get(0).click();
         }
 
-        // Close MMT WORK coachmark if present
+        
         Thread.sleep(1000);
         List<WebElement> workCoachmarkClose =
                 driver.findElements(By.cssSelector("span.coachmark"));
@@ -44,77 +43,87 @@ public class MakeMyTrip {
             workCoachmarkClose.get(0).click();
         }
 
-        // ===== Basic booking (one way) =====
+      
         WebElement fromCity = wait.until(
                 ExpectedConditions.elementToBeClickable(By.id("fromCity")));
         fromCity.click();
+
         WebElement fromInput = wait.until(
-                ExpectedConditions.elementToBeClickable(By.xpath("//input[@placeholder='From']")));
+                ExpectedConditions.elementToBeClickable(
+                        By.xpath("//input[@placeholder='From']")));
         fromInput.sendKeys("Delhi");
+
         WebElement fromOption = wait.until(
                 ExpectedConditions.elementToBeClickable(
                         By.xpath("//p[contains(text(),'New Delhi, India')]")));
         fromOption.click();
 
+       
         WebElement toCity = wait.until(
                 ExpectedConditions.elementToBeClickable(By.id("toCity")));
         toCity.click();
+
         WebElement toInput = wait.until(
-                ExpectedConditions.elementToBeClickable(By.xpath("//input[@placeholder='To']")));
+                ExpectedConditions.elementToBeClickable(
+                        By.xpath("//input[@placeholder='To']")));
         toInput.sendKeys("Bengaluru");
+
         WebElement toOption = wait.until(
                 ExpectedConditions.elementToBeClickable(
                         By.xpath("//p[contains(text(),'Bengaluru, India')]")));
         toOption.click();
 
-        // Calendar: open via JS and pick date 19
-        if (driver.findElements(By.cssSelector("div.DayPicker")).isEmpty()) {
-            WebElement depInput = driver.findElement(By.id("departure"));
-            js.executeScript("arguments[0].click();", depInput);
-        }
+
+        WebElement depInput = driver.findElement(By.id("departure"));
+
+       
+        js.executeScript("arguments[0].click();", depInput);
+
+        
         WebElement calendar = wait.until(
-                ExpectedConditions.visibilityOfElementLocated(By.cssSelector("div.DayPicker")));
+                ExpectedConditions.visibilityOfElementLocated(
+                        By.cssSelector("div.DayPicker")));
+
+    
         WebElement targetDate = wait.until(
                 ExpectedConditions.presenceOfElementLocated(
-                        By.xpath("//div[contains(@class,'DayPicker-Day') " +
-                                 "and not(contains(@class,'DayPicker-Day--disabled')) " +
-                                 "and @aria-disabled='false'][.//p[text()='19']]")));
+                        By.xpath("//div[contains(@class,'DayPicker-Day')]//p[text()='29']")));
+
+       
         js.executeScript("arguments[0].click();", targetDate);
 
-        // Click Search to simulate booking
+
+       
         WebElement searchBtn = wait.until(
                 ExpectedConditions.elementToBeClickable(
                         By.xpath("//a[contains(@class,'widgetSearchBtn')]")));
         searchBtn.click();
 
-        // Wait for results page a bit
+  
         Thread.sleep(8000);
 
-        // ===== Go back to Flights home so Offers section is visible again =====
-        driver.navigate().back();
-        Thread.sleep(5000);   // wait for home to load again
+       
+        driver.navigate().back();  
+        Thread.sleep(5000);
 
-        // ===== Scroll to Offers strip =====
-        for (int i = 0; i < 8; i++) {
+       
+        for (int i = 0; i < 2; i++) {
             js.executeScript("window.scrollBy(0,500);");
             Thread.sleep(800);
         }
 
-        // Click Flights tab in Offers strip (top nav: All Offers | Flights | Hotels...)
-        List<WebElement> flightsTabs = driver.findElements(
-                By.xpath("//div[contains(.,'Offers')]" +
-                         "//span[normalize-space()='Flights']"));
-        if (!flightsTabs.isEmpty()) {
-            flightsTabs.get(0).click();
-        }
+      
+        WebElement flightsTab = driver.findElement(
+                By.xpath("//span[normalize-space()='Flights']"));
+        flightsTab.click();
 
-        Thread.sleep(3000); // wait for flight offers to appear
+        Thread.sleep(3000); 
 
-        // ===== Capture first 4 offer cards and print =====
-        // The highlighted text in your screenshot is inside <p data-cy='superOfferPtl0' ...>
+       
         List<WebElement> offerTitleElements = driver.findElements(
                 By.cssSelector("p[data-cy^='superOfferPtl']"));
 
+       
         List<String> firstFourOffers = new ArrayList<>();
         int count = Math.min(4, offerTitleElements.size());
 
@@ -125,6 +134,7 @@ public class MakeMyTrip {
             }
         }
 
+        
         System.out.println("=== FIRST 4 FLIGHT OFFERS ON FLIGHTS PAGE ===");
         for (String offer : firstFourOffers) {
             System.out.println("----------------------------");
