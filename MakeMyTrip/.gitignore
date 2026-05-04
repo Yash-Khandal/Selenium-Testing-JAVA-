@@ -1,0 +1,10 @@
+# Maven
+target/
+
+# Large binaries
+*.deb
+
+# IDE
+.idea/
+.vscode/
+*.iml

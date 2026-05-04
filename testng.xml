@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="Selenium Test Suite" verbose="1" parallel="none">
+    <test name="MakeMyTrip Tests">
+        <classes>
+            <class name="yashautomation.tests.MakeMyTripWithTestNG"/>
+        </classes>
+    </test>
+</suite></content>
+<parameter name="filePath">/workspaces/Selenium-Testing-JAVA-/testng.xml
